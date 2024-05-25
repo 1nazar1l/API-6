@@ -1,0 +1,10 @@
+.gitattributes
+replit_zip_error_log.txt
+.cache
+.pythonlibs
+.upm
+.replit
+/images
+.env
+.idea
+__pycache
