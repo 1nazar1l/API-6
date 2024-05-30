@@ -1,16 +1,15 @@
 import requests
-import os
 import random
+import os
 
 
-def download_picture(image_link, filename):
-    os.makedirs('images', exist_ok=True)
+def download_picture(image_link, file_path):
     response = requests.get(image_link)
     response.raise_for_status()
-    with open(filename, 'wb') as file:
+    with open(file_path, 'wb') as file:
         file.write(response.content)
 
-def random_number():
+def make_random_number():
     url = "https://xkcd.com/info.0.json"
     response = requests.get(url)
     response.raise_for_status()
@@ -19,13 +18,18 @@ def random_number():
     return num
 
 
-def make_comics():
-    num = random_number()
+def get_comic():
+    num = make_random_number()
     url = f"https://xkcd.com/{num}/info.0.json"
     response = requests.get(url)
     response.raise_for_status()
-    img_url = response.json()["img"]
-    coment = response.json()["alt"]
-    filename = "images/comics.png"
-    download_picture(img_url, filename)
+
+    comics_info = response.json()
+    img_url = comics_info["img"]
+    coment = comics_info["alt"]
+
+    file_path = os.path.join("images", "comic.png")
+    download_picture(img_url, file_path)
+    
     return coment
+
